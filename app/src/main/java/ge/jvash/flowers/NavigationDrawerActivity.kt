@@ -3,6 +3,7 @@ package ge.jvash.flowers
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
+import android.view.View
 import android.widget.Button
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.navigation.NavigationView
@@ -21,8 +22,6 @@ class NavigationDrawerActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityNavigationDrawerBinding
 
-    private lateinit var logOutButton: Button
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -40,17 +39,7 @@ class NavigationDrawerActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_content_navigation_drawer)
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
-        logOutButton = findViewById<Button>(R.id.logOut)
-        logOutButton.setOnClickListener {
-            FirebaseAuth.getInstance().signOut()
-            startActivity(
-                Intent(
-                    this@NavigationDrawerActivity,
-                    LoginActivity::class.java
-                )
-            )
-            finish()
-        }
+
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow
@@ -69,5 +58,15 @@ class NavigationDrawerActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment_content_navigation_drawer)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+    }
+
+    fun logOutClicked(view: View) {
+        FirebaseAuth.getInstance().signOut()
+        startActivity(
+            Intent(
+                this,
+                LoginActivity::class.java
+            )
+        )
     }
 }
