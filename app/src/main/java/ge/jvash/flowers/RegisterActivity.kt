@@ -41,10 +41,11 @@ class RegisterActivity : AppCompatActivity() {
         }
 
         registerButton.setOnClickListener {
+            val username = userNameTextView.text.toString()
             val email = emailTextView.text.toString()
             val password = passwordTextView.text.toString()
             val passwordCheck = passwordConfirmTextView.text.toString()
-            if (email.isEmpty() || password.isEmpty()) {
+            if (email.isEmpty() || password.isEmpty() || username.isEmpty()) {
                 Toast.makeText(this, "Some fields are empty", Toast.LENGTH_SHORT)
                     .show()
                 return@setOnClickListener
