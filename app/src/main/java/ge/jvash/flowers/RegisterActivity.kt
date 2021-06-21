@@ -7,11 +7,14 @@ import android.util.Patterns
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 
 
 class RegisterActivity : AppCompatActivity() {
 
     private lateinit var mAuth: FirebaseAuth
+    private lateinit var db: DatabaseReference
     private lateinit var alreadyHaveAccount: TextView
     private lateinit var userNameTextView: TextView
     private lateinit var emailTextView: TextView
@@ -25,6 +28,8 @@ class RegisterActivity : AppCompatActivity() {
         setContentView(R.layout.activity_register)
 
         mAuth = FirebaseAuth.getInstance()
+        db = FirebaseDatabase.getInstance().getReference("userInfo")
+
         getInput()
         registerListeners()
     }
@@ -71,6 +76,8 @@ class RegisterActivity : AppCompatActivity() {
                 ).show()
                 return@setOnClickListener
             } else {
+                val user = UserInfo(username, email, "")
+                db.child(email).setValue(user)
                 mAuth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener { result ->
                         if (result.isSuccessful) {
@@ -117,8 +124,8 @@ class RegisterActivity : AppCompatActivity() {
     private fun validPassword(password: String): Boolean {
         if (password.length < 8) return false
         if (password.contains(' ')) return false
-        var hasDigit: Boolean = false
-        var hasLetter: Boolean = false
+        var hasDigit = false
+        var hasLetter = false
         for (ch in password) {
             if (ch.isDigit()) hasDigit = true
             if (ch.isLetter()) hasLetter = true

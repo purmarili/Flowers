@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
+    app:startDestination="@+id/nav_featured">
 
     <fragment
-        android:id="@+id/nav_home"
-        android:name="ge.jvash.flowers.ui.home.HomeFragment"
+        android:id="@+id/nav_featured"
+        android:name="ge.jvash.flowers.ui.featured.FeaturedFragment"
         android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_featured" />
 
     <fragment
         android:id="@+id/nav_gallery"
