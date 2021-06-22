@@ -66,7 +66,7 @@
         app:layout_constraintTop_toBottomOf="@+id/registerInputUsername" />
 
     <EditText
-        android:id="@+id/registerInputPassword"
+        android:id="@+id/changePassword"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -87,7 +87,7 @@
         app:layout_constraintTop_toBottomOf="@+id/registerInputEmail" />
 
     <EditText
-        android:id="@+id/registerInputConfirmPassword"
+        android:id="@+id/changePasswordConfirm"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -103,9 +103,9 @@
         android:paddingBottom="10dp"
         android:textColor="@color/white"
         android:textColorHint="@color/white"
-        app:layout_constraintEnd_toEndOf="@+id/registerInputPassword"
-        app:layout_constraintStart_toStartOf="@+id/registerInputPassword"
-        app:layout_constraintTop_toBottomOf="@+id/registerInputPassword" />
+        app:layout_constraintEnd_toEndOf="@+id/changePassword"
+        app:layout_constraintStart_toStartOf="@+id/changePassword"
+        app:layout_constraintTop_toBottomOf="@+id/changePassword" />
 
     <Spinner
         android:id="@+id/registerRole"
@@ -114,9 +114,9 @@
         android:layout_marginTop="16dp"
         android:background="@android:drawable/btn_dropdown"
         android:spinnerMode="dropdown"
-        app:layout_constraintEnd_toEndOf="@+id/registerInputConfirmPassword"
-        app:layout_constraintStart_toStartOf="@+id/registerInputConfirmPassword"
-        app:layout_constraintTop_toBottomOf="@+id/registerInputConfirmPassword" />
+        app:layout_constraintEnd_toEndOf="@+id/changePasswordConfirm"
+        app:layout_constraintStart_toStartOf="@+id/changePasswordConfirm"
+        app:layout_constraintTop_toBottomOf="@+id/changePasswordConfirm" />
 
     <Button
         android:id="@+id/registerRegister"
@@ -125,8 +125,8 @@
         android:layout_marginTop="16dp"
         android:background="@drawable/trans_btn"
         android:text="Register"
-        app:layout_constraintEnd_toEndOf="@+id/registerInputConfirmPassword"
-        app:layout_constraintStart_toStartOf="@+id/registerInputConfirmPassword"
+        app:layout_constraintEnd_toEndOf="@+id/changePasswordConfirm"
+        app:layout_constraintStart_toStartOf="@+id/changePasswordConfirm"
         app:layout_constraintTop_toBottomOf="@+id/registerRole" />
 
     <TextView

@@ -8,18 +8,23 @@
     <fragment
         android:id="@+id/nav_featured"
         android:name="ge.jvash.flowers.ui.featured.FeaturedFragment"
-        android:label="@string/menu_home"
+        android:label="@string/featured"
         tools:layout="@layout/fragment_featured" />
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="ge.jvash.flowers.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        android:id="@+id/nav_bucket"
+        android:name="ge.jvash.flowers.ui.bucket.BucketFragment"
+        android:label="@string/bucket"
+        tools:layout="@layout/fragment_bucket" />
 
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="ge.jvash.flowers.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        android:id="@+id/nav_my_products"
+        android:name="ge.jvash.flowers.ui.my_products.MyProductsFragment"
+        android:label="@string/my_products"
+        tools:layout="@layout/fragment_my_products" />
+    <fragment
+        android:id="@+id/nav_settings"
+        android:name="ge.jvash.flowers.ui.settings.SettingsFragment"
+        android:label="Settings"
+        tools:layout="@layout/fragment_settings" />
 </navigation>

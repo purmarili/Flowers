@@ -55,6 +55,7 @@ class RegisterActivity : AppCompatActivity() {
                     .show()
                 return@setOnClickListener
             }
+
             if (!validEmail(email)) {
                 Toast.makeText(this, "Email is not valid!", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
@@ -76,11 +77,12 @@ class RegisterActivity : AppCompatActivity() {
                 ).show()
                 return@setOnClickListener
             } else {
-                val user = UserInfo(username, email, "")
-                db.child(email).setValue(user)
                 mAuth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener { result ->
                         if (result.isSuccessful) {
+                            val user = UserInfo(username, email, "")
+                            db.child(mAuth.currentUser?.uid.toString()).setValue(user)
+                            mAuth.signOut()
                             Toast.makeText(
                                 this,
                                 "Registration Successful, Please log in",
@@ -116,8 +118,8 @@ class RegisterActivity : AppCompatActivity() {
         alreadyHaveAccount = findViewById(R.id.registerAlreadyHaveAccount)
         userNameTextView = findViewById(R.id.registerInputUsername)
         emailTextView = findViewById(R.id.registerInputEmail)
-        passwordTextView = findViewById(R.id.registerInputPassword)
-        passwordConfirmTextView = findViewById(R.id.registerInputConfirmPassword)
+        passwordTextView = findViewById(R.id.changePassword)
+        passwordConfirmTextView = findViewById(R.id.changePasswordConfirm)
         registerButton = findViewById(R.id.registerRegister)
     }
 
