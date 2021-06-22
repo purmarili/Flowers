@@ -8,6 +8,7 @@
 
 
     <androidx.recyclerview.widget.RecyclerView
+        android:background="@drawable/featured_background"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:id="@+id/flower_featured"
         android:layout_width="match_parent"

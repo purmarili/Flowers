@@ -3,13 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="150dp">
+    android:layout_height="150dp"
+    android:background="#80E91E63">
 
     <ImageView
         android:id="@+id/flower_picture"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
         android:layout_marginStart="10dp"
+
+        android:background="@drawable/avatar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -37,19 +40,56 @@
         android:id="@+id/price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="50dp"
+        android:layout_marginEnd="196dp"
         android:text="TextView"
         app:layout_constraintBottom_toBottomOf="@+id/flower_picture"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/flower_description" />
 
     <TextView
         android:id="@+id/flower_description"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="239dp"
+        android:layout_height="43dp"
         android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
         android:text="TextView"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/flower_seller_number"
         app:layout_constraintTop_toBottomOf="@+id/flower_seller_number" />
+
+    <Button
+        android:id="@+id/minusProductButton"
+        android:layout_width="30dp"
+        android:layout_height="28dp"
+        android:layout_marginStart="20dp"
+        android:drawableLeft="@drawable/plus"
+        app:layout_constraintBottom_toBottomOf="@+id/price"
+        app:layout_constraintStart_toEndOf="@+id/price"
+        app:layout_constraintTop_toTopOf="@+id/price" />
+
+    <Button
+        android:id="@+id/plusProductButton"
+        android:layout_width="30dp"
+        android:layout_height="28dp"
+        android:layout_marginStart="10dp"
+        android:background="@drawable/plus"
+        android:text="+"
+        app:layout_constraintBottom_toBottomOf="@+id/price"
+        app:layout_constraintStart_toEndOf="@+id/quantityEditText"
+        app:layout_constraintTop_toTopOf="@+id/price"
+        app:layout_constraintVertical_bias="0.444" />
+
+    <EditText
+        android:id="@+id/quantityEditText"
+        android:layout_width="36dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="10dp"
+        android:ems="2"
+        android:inputType="number"
+        app:layout_constraintBottom_toBottomOf="@+id/minusProductButton"
+        app:layout_constraintStart_toEndOf="@+id/minusProductButton"
+        app:layout_constraintTop_toTopOf="@+id/minusProductButton" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

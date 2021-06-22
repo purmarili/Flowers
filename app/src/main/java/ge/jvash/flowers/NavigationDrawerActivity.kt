@@ -211,8 +211,4 @@ class NavigationDrawerActivity : AppCompatActivity() {
         return (hasDigit && hasLetter)
     }
 
-    fun chooseImage(view: View) {
-//        Dexter.
-    }
-
 }
