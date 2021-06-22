@@ -4,8 +4,10 @@ import android.Manifest
 import android.app.Activity.RESULT_OK
 import android.app.AlertDialog
 import android.app.ProgressDialog
+import android.content.ContentResolver
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -20,6 +22,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import ge.jvash.flowers.databinding.FragmentSettingsBinding
+
 
 class SettingsFragment : Fragment() {
 
@@ -71,7 +74,7 @@ class SettingsFragment : Fragment() {
         return root
     }
 
-    private fun checkForPermission(permission: String, name: String, requestCode: Int) {
+    fun checkForPermission(permission: String, name: String, requestCode: Int) {
         when {
             ContextCompat.checkSelfPermission(
                 requireContext(),
@@ -144,14 +147,16 @@ class SettingsFragment : Fragment() {
         mAuth = FirebaseAuth.getInstance()
         val fileName = mAuth.currentUser?.uid
         db = FirebaseDatabase.getInstance().getReference("profileImages/$fileName")
-
-        db.setValue(ImageUri).addOnSuccessListener {
-            _binding?.changeProfilePicture?.setImageURI(null)
-            Toast.makeText(context, "Image Uploaded Successfully", Toast.LENGTH_SHORT).show()
-            if (progressDialog.isShowing) progressDialog.dismiss()
-        }.addOnFailureListener {
-            if (progressDialog.isShowing) progressDialog.dismiss()
-            Toast.makeText(context, "Something Went Wrong!", Toast.LENGTH_SHORT).show()
+        if (Uri.EMPTY.equals(ImageUri)) {
+            Toast.makeText(context, "No Image Selected", Toast.LENGTH_SHORT).show()
+        } else {
+            db.setValue(ImageUri).addOnSuccessListener {
+                Toast.makeText(context, "Image Uploaded Successfully", Toast.LENGTH_SHORT).show()
+                if (progressDialog.isShowing) progressDialog.dismiss()
+            }.addOnFailureListener {
+                if (progressDialog.isShowing) progressDialog.dismiss()
+                Toast.makeText(context, "Something Went Wrong!", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 

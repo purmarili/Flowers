@@ -61,9 +61,11 @@
     <Button
         android:id="@+id/minusProductButton"
         android:layout_width="30dp"
-        android:layout_height="28dp"
+        android:layout_height="35dp"
         android:layout_marginStart="20dp"
+        android:backgroundTint="#A1054E"
         android:drawableLeft="@drawable/plus"
+        android:onClick="changeQuantity"
         app:layout_constraintBottom_toBottomOf="@+id/price"
         app:layout_constraintStart_toEndOf="@+id/price"
         app:layout_constraintTop_toTopOf="@+id/price" />
@@ -71,10 +73,14 @@
     <Button
         android:id="@+id/plusProductButton"
         android:layout_width="30dp"
-        android:layout_height="28dp"
+        android:layout_height="35dp"
         android:layout_marginStart="10dp"
-        android:background="@drawable/plus"
-        android:text="+"
+        android:backgroundTint="#A1054E"
+        android:onClick="changeQuantity"
+        android:text="ASD"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="#FFF000"
         app:layout_constraintBottom_toBottomOf="@+id/price"
         app:layout_constraintStart_toEndOf="@+id/quantityEditText"
         app:layout_constraintTop_toTopOf="@+id/price"
@@ -83,13 +89,28 @@
     <EditText
         android:id="@+id/quantityEditText"
         android:layout_width="36dp"
-        android:layout_height="24dp"
+        android:layout_height="40dp"
         android:layout_marginStart="10dp"
         android:ems="2"
         android:inputType="number"
-        app:layout_constraintBottom_toBottomOf="@+id/minusProductButton"
+        android:text="1"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="@+id/plusProductButton"
         app:layout_constraintStart_toEndOf="@+id/minusProductButton"
         app:layout_constraintTop_toTopOf="@+id/minusProductButton" />
+
+    <Button
+        android:id="@+id/addToCartButton"
+        android:layout_width="34dp"
+        android:layout_height="33dp"
+        android:layout_marginEnd="10dp"
+        android:text="ADD"
+        android:onClick="addToCart"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/plusProductButton" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

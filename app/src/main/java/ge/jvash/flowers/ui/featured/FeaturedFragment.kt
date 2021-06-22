@@ -35,7 +35,7 @@ class FeaturedFragment : Fragment() {
     ): View? {
         db = FirebaseDatabase.getInstance().getReference("FlowerInfo")
         val list = arrayListOf<FlowerItem>()
-        list.add(FlowerItem("Misha", "asd", "555999999", "gamarjoba", "100$"))
+        list.add(FlowerItem("123","Misha", "asd", "555999999", "gamarjoba", "100$"))
         myView = inflater.inflate(R.layout.fragment_featured, container, false)
         val rvToday = myView.findViewById<RecyclerView>(R.id.flower_featured)
         adapter = FeaturedListAdapter(list)
