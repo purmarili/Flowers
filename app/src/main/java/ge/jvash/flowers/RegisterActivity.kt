@@ -50,6 +50,7 @@ class RegisterActivity : AppCompatActivity() {
             val email = emailTextView.text.toString()
             val password = passwordTextView.text.toString()
             val passwordCheck = passwordConfirmTextView.text.toString()
+            val role = registerRole.selectedItem.toString()
             if (email.isEmpty() || password.isEmpty() || username.isEmpty()) {
                 Toast.makeText(this, "Some fields are empty", Toast.LENGTH_SHORT)
                     .show()
@@ -80,7 +81,7 @@ class RegisterActivity : AppCompatActivity() {
                 mAuth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener { result ->
                         if (result.isSuccessful) {
-                            val user = UserInfo(username, email, "")
+                            val user = UserInfo(username, email, "", role.uppercase())
                             db.child(mAuth.currentUser?.uid.toString()).setValue(user)
                             mAuth.signOut()
                             Toast.makeText(

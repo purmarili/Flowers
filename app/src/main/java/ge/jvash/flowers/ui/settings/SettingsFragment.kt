@@ -1,20 +1,15 @@
 package ge.jvash.flowers.ui.settings
 
-import android.content.Intent
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.TextView
-import androidx.lifecycle.Observer
-import com.google.firebase.auth.FirebaseAuth
-import ge.jvash.flowers.LoginActivity
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import ge.jvash.flowers.R
-import ge.jvash.flowers.databinding.FragmentBucketBinding
 import ge.jvash.flowers.databinding.FragmentSettingsBinding
-import ge.jvash.flowers.ui.bucket.BucketViewModel
 
 class SettingsFragment : Fragment() {
 
@@ -34,6 +29,8 @@ class SettingsFragment : Fragment() {
 
         _binding = FragmentSettingsBinding.inflate(inflater, container, false)
         val root: View = binding.root
+        val role: TextView = binding.userRole
+        role.text = view?.findViewById<EditText>(R.id.userRoleProfile)?.text.toString()
         settingsViewModel.text.observe(viewLifecycleOwner, {
         })
         return root

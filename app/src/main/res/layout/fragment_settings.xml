@@ -80,6 +80,7 @@
         android:layout_height="150dp"
         android:layout_marginTop="50dp"
         android:background="@drawable/avatar"
+        android:onClick="chooseImage"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -91,7 +92,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="64dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="64dp"
         android:background="@drawable/input_bg"
         android:drawableStart="@drawable/ic_person"
@@ -108,7 +109,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/changeProfilePicture" />
+        app:layout_constraintTop_toBottomOf="@+id/userRole" />
 
     <Button
         android:id="@+id/saveNewSettings"
@@ -134,4 +135,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/saveNewSettings" />
+
+    <TextView
+        android:id="@+id/userRole"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Halo"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="@+id/changeProfilePicture"
+        app:layout_constraintStart_toStartOf="@+id/changeProfilePicture"
+        app:layout_constraintTop_toBottomOf="@+id/changeProfilePicture" />
 </androidx.constraintlayout.widget.ConstraintLayout>

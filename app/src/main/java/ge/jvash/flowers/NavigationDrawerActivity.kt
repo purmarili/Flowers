@@ -1,6 +1,7 @@
 package ge.jvash.flowers
 
 import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -16,6 +17,8 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import com.google.firebase.auth.*
 import com.google.firebase.database.*
 import ge.jvash.flowers.databinding.ActivityNavigationDrawerBinding
@@ -29,11 +32,15 @@ class NavigationDrawerActivity : AppCompatActivity() {
     private lateinit var picture: ImageView
     private lateinit var email: TextView
     private lateinit var username: TextView
+    private lateinit var role: TextView
 
     private lateinit var newUsername: TextView
     private lateinit var newPassword: TextView
     private lateinit var newPasswordConfirm: TextView
     private lateinit var currentPassword: TextView
+    private lateinit var Uri: String
+    private lateinit var userImageView: ImageView
+    private lateinit var bitmap: Bitmap
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,19 +62,17 @@ class NavigationDrawerActivity : AppCompatActivity() {
 
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_featured, R.id.nav_bucket, R.id.nav_my_products
+                R.id.nav_featured,
+                R.id.nav_bucket,
+                R.id.nav_my_products,
+                R.id.nav_settings,
+                R.id.nav_sigout
             ), drawerLayout
         )
 
         loadProfile()
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.navigation_drawer, menu)
-        return true
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -83,11 +88,18 @@ class NavigationDrawerActivity : AppCompatActivity() {
             db.child(uid).addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     val userInfo: UserInfo = snapshot.getValue(UserInfo::class.java) ?: return
+                    role = findViewById(R.id.userRoleProfile)
                     picture = findViewById(R.id.userPicture)
                     email = findViewById(R.id.userMail)
                     username = findViewById(R.id.username)
                     email.text = userInfo.email
                     username.text = userInfo.username
+                    role.text = userInfo.role
+                    if (role.text.toString() == "EMPLOYEE"){
+                        val navigationView: NavigationView = findViewById(R.id.nav_view)
+                        val navMenu: Menu = navigationView.menu
+                        navMenu.findItem(R.id.nav_my_products).isVisible = false
+                    }
                 }
 
                 override fun onCancelled(error: DatabaseError) {
@@ -110,28 +122,36 @@ class NavigationDrawerActivity : AppCompatActivity() {
     }
 
     fun saveSettings(view: View) {
-        newUsername = findViewById<EditText>(R.id.changeUsername)
-        currentPassword = findViewById<EditText>(R.id.currentPassword)
+        initializeFields()
+        val currEmail = findViewById<TextView>(R.id.userMail).text.toString()
 
         if (newUsername.text.toString().isEmpty())
             Toast.makeText(this, "Username field is empty!", Toast.LENGTH_SHORT).show()
         else {
-            if (validateCurrentPassword(currentPassword.text.toString())) {
-                val uid = mAuth.currentUser?.uid.toString()
-                db.child(uid).child("username").setValue(newUsername).addOnCompleteListener {
-                    Toast.makeText(this, "Username Updated", Toast.LENGTH_SHORT).show()
-                    resetInputFields()
-                }
-            } else {
-                Toast.makeText(this, "Current password is invalid", Toast.LENGTH_SHORT).show()
+            val uid = mAuth.currentUser?.uid.toString()
+            mAuth.currentUser?.reauthenticate(
+                EmailAuthProvider.getCredential(
+                    currEmail,
+                    currentPassword.text.toString()
+                )
+            )?.addOnCompleteListener {
+                db.child(uid).child("username").setValue(newUsername.text.toString())
+                    .addOnCompleteListener {
+                        Toast.makeText(this, "Username Updated", Toast.LENGTH_SHORT).show()
+                        resetInputFields()
+                    }
+            }?.addOnFailureListener {
+                Toast.makeText(this, "Current Password is incorrect!", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
+
     fun savePassword(view: View) {
-        newPassword = findViewById<EditText>(R.id.changePassword)
-        newPasswordConfirm = findViewById<EditText>(R.id.changePasswordConfirm)
-        currentPassword = findViewById<EditText>(R.id.currentPassword)
+        initializeFields()
+        val currEmail = findViewById<TextView>(R.id.userMail).text.toString()
+        val user = mAuth.currentUser
+
         if (newPassword.text.toString().isEmpty() || newPasswordConfirm.text.toString()
                 .isEmpty() || currentPassword.text.toString().isEmpty()
         ) {
@@ -142,16 +162,32 @@ class NavigationDrawerActivity : AppCompatActivity() {
             )
         ) {
             Toast.makeText(this, "Passwords doesn't match", Toast.LENGTH_SHORT).show()
-        } else if (!validateCurrentPassword(currentPassword.text.toString())) {
-            Toast.makeText(this, "Current password is invalid", Toast.LENGTH_SHORT).show()
         } else {
-            mAuth.currentUser?.updatePassword(newPassword.text.toString())?.addOnCompleteListener {
-                Toast.makeText(this, "Password updated successfully", Toast.LENGTH_SHORT).show()
-                resetInputFields()
+            val uid = mAuth.currentUser?.uid.toString()
+            user?.reauthenticate(
+                EmailAuthProvider.getCredential(
+                    currEmail,
+                    currentPassword.text.toString()
+                )
+            )?.addOnCompleteListener {
+                user.updatePassword(newPassword.text.toString()).addOnCompleteListener {
+                    Toast.makeText(this, "Password Updated Successfully!", Toast.LENGTH_SHORT)
+                        .show()
+                }.addOnFailureListener {
+                    Toast.makeText(this, "Something Went Wrong!", Toast.LENGTH_SHORT).show()
+                }
             }?.addOnFailureListener {
-                Toast.makeText(this, "Something went wrong!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Current Password is incorrect!", Toast.LENGTH_SHORT).show()
             }
+
         }
+    }
+
+    private fun initializeFields() {
+        newPassword = findViewById<EditText>(R.id.newPassword)
+        newPasswordConfirm = findViewById<EditText>(R.id.newPasswordConfirm)
+        currentPassword = findViewById<EditText>(R.id.currentPassword)
+        newUsername = findViewById<EditText>(R.id.changeUsername)
     }
 
     private fun resetInputFields() {
@@ -161,19 +197,6 @@ class NavigationDrawerActivity : AppCompatActivity() {
         newUsername.text = ""
     }
 
-    private fun validateCurrentPassword(password: String): Boolean {
-        var isValid = false
-        val user = mAuth.currentUser
-        user?.reauthenticate(
-            EmailAuthProvider.getCredential(
-                user.email.toString(),
-                password
-            )
-        )?.addOnSuccessListener {
-            isValid = true
-        }
-        return isValid
-    }
 
     private fun validatePassword(password: String, confirmPassword: String): Boolean {
         if (password != confirmPassword) return false
@@ -186,6 +209,10 @@ class NavigationDrawerActivity : AppCompatActivity() {
             if (ch.isLetter()) hasLetter = true
         }
         return (hasDigit && hasLetter)
+    }
+
+    fun chooseImage(view: View) {
+//        Dexter.
     }
 
 }
