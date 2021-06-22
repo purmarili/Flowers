@@ -1,5 +1,5 @@
 # Flowers
-Flowers is a Ecommerce-type application, implemented for Android devices, where you can
+Flowers is a Ecommerce-type application, implemented for Android devices using Kotlin, where you can
 either register as a seller or a buyer. Scroll through thousends of flowers and add them
 to your basket.
 
