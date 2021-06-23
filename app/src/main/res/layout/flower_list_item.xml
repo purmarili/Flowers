@@ -64,7 +64,7 @@
         android:layout_height="35dp"
         android:layout_marginStart="20dp"
         android:backgroundTint="#A1054E"
-        android:drawableLeft="@drawable/plus"
+        android:text="+"
         android:onClick="changeQuantity"
         app:layout_constraintBottom_toBottomOf="@+id/price"
         app:layout_constraintStart_toEndOf="@+id/price"

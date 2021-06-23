@@ -4,16 +4,31 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import ge.jvash.flowers.R
 import ge.jvash.flowers.databinding.FragmentBucketBinding
+import ge.jvash.flowers.databinding.FragmentFeaturedBinding
+import ge.jvash.flowers.ui.featured.FeaturedListAdapter
+import ge.jvash.flowers.ui.featured.FeaturedViewModel
+import ge.jvash.flowers.ui.featured.FlowerItem
 
 class BucketFragment : Fragment() {
 
-    private lateinit var bucketViewModel: BucketViewModel
+    private lateinit var featuredViewModel: FeaturedViewModel
+    private lateinit var myView: View
+    private lateinit var adapter: FeaturedListAdapter
     private var _binding: FragmentBucketBinding? = null
+    private lateinit var logOutButton: Button
+    private lateinit var db: DatabaseReference
+    private val flowers = listOf("Tita", "Endzela", "Zalim Istanbul", "Mayvali", "Ucnobi")
+    private val intentFlowers: Map<FlowerItem, Int> = mapOf()
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -24,16 +39,24 @@ class BucketFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        bucketViewModel =
-            ViewModelProvider(this).get(BucketViewModel::class.java)
+        db = FirebaseDatabase.getInstance().getReference("FlowerInfo")
+        val list = arrayListOf<FlowerItem>()
+        for (i in 1..15){
+            list.add(
+                FlowerItem(i.toString(),flowers[(0..4).random().toInt()], "null", "+995" + (500000000..599999999).random()
+                .toString(), "Flower Number: $i", (1..150).random().toString() + "$")
+            )
+        }
+        myView = inflater.inflate(R.layout.fragment_featured, container, false)
+        val rvToday = myView.findViewById<RecyclerView>(R.id.flower_featured)
+        adapter = FeaturedListAdapter(list)
+        updateData()
+        rvToday.adapter = adapter
+        return myView
+    }
 
-        _binding = FragmentBucketBinding.inflate(inflater, container, false)
-        val root: View = binding.root
-        val textView: TextView = binding.textGallery
-        bucketViewModel.text.observe(viewLifecycleOwner, {
-            textView.text = it
-        })
-        return root
+    private fun updateData() {
+
     }
 
     override fun onDestroyView() {

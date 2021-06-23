@@ -6,6 +6,7 @@ import android.app.ProgressDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -65,7 +66,7 @@ class NavigationDrawerActivity : AppCompatActivity() {
         setSupportActionBar(binding.appBarNavigationDrawer.toolbar)
 
         binding.appBarNavigationDrawer.fab.setOnClickListener { view ->
-
+            startActivity(Intent(this@NavigationDrawerActivity, NewProductActivity::class.java))
         }
         val drawerLayout: DrawerLayout = binding.drawerLayout
         val navView: NavigationView = binding.navView
@@ -221,6 +222,7 @@ class NavigationDrawerActivity : AppCompatActivity() {
         if (uid != null) {
             db.child(uid).addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
+                    findViewById<ImageView>(R.id.userPicture).setImageDrawable(getDrawable(R.drawable.avatar))
                     val userInfo: UserInfo = snapshot.getValue(UserInfo::class.java) ?: return
                     role = findViewById(R.id.userRoleProfile)
                     picture = findViewById(R.id.userPicture)

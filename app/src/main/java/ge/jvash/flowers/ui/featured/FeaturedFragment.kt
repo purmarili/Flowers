@@ -23,6 +23,7 @@ class FeaturedFragment : Fragment() {
     private var _binding: FragmentFeaturedBinding? = null
     private lateinit var logOutButton: Button
     private lateinit var db: DatabaseReference
+    private val flowers = listOf("Tita", "Endzela", "Zalim Istanbul", "Mayvali", "Ucnobi")
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -35,14 +36,15 @@ class FeaturedFragment : Fragment() {
     ): View? {
         db = FirebaseDatabase.getInstance().getReference("FlowerInfo")
         val list = arrayListOf<FlowerItem>()
-        list.add(FlowerItem("123","Misha", "asd", "555999999", "gamarjoba", "100$"))
+        for (i in 1..15){
+            list.add(FlowerItem(i.toString(),flowers[(0..4).random().toInt()], "null", "+995" + (500000000..599999999).random()
+                .toString(), "Flower Number: $i", (1..150).random().toString() + "$"))
+        }
         myView = inflater.inflate(R.layout.fragment_featured, container, false)
         val rvToday = myView.findViewById<RecyclerView>(R.id.flower_featured)
         adapter = FeaturedListAdapter(list)
         updateData()
         rvToday.adapter = adapter
-//        (rvToday.adapter as TodayListAdapter).list = getTodayList()
-//        rvToday.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         return myView
     }
 
